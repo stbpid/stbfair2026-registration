@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSWD STB Digital Systems</title>
+    <title>STB | SocTech Fair 2026</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
 
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
         
-        /* The Iframe is hidden until the Google Script is ready */
-        iframe { width: 100%; height: 100%; border: none; display: none; } 
         
-        /* DSWD-Themed Loading Screen */
+        iframe { width: 100%; height: 100%; border: none; display: none; } 
+
         #loading {
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             height: 100vh; background-color: #ffffff; color: #003366;
@@ -45,8 +44,7 @@
     <iframe id="appFrame" src="" allow="camera; microphone; clipboard-read; clipboard-write;"></iframe>
 
     <script>
-    // 1. REPLACE with your one Google Apps Script Exec URL
-    const baseExecLink = "https://script.google.com/macros/s/AKfycb..._YOUR_ID_HERE.../exec";
+        const baseExecLink = "https://script.google.com/macros/s/AKfycbwYJ3hDyjrb6RbBmh2BuWisOXlaUFosYrM37zIF6HMEGsGH9bYreTicK-hn_UvTcS7c/exec";
 
     function loadApp() {
         const params = new URLSearchParams(window.location.search);
@@ -55,12 +53,10 @@
         const frame = document.getElementById('appFrame');
         const loader = document.getElementById('loading');
 
-        // Mapping the URL parameter to your specific file names
         let pageName = 'index'; // default
         if (p === 'dashboard') pageName = 'Dashboard';
         if (p === 'scanner') pageName = 'Scanner';
 
-        // 2. Routing logic: Appends the parameter to your base link
         frame.src = baseExecLink + "?p=" + pageName;
         
         frame.onload = () => {
