@@ -70,14 +70,13 @@
     }
 
     // 2. THE FIX: Listen for messages from the App Script
-    window.addEventListener('message', function(event) {
-        if (event.data.action === 'nav') {
-            // This updates the browser's URL to yourdomain.com/?p=dashboard
-            // which triggers the wrapper to reload the correct iframe page
-            const newUrl = window.location.origin + window.location.pathname + '?p=' + event.data.page;
-            window.location.href = newUrl; 
-        }
-    });
+   window.addEventListener('message', function(event) {
+    if (event.data.action === 'nav') {
+        // This line updates the GitHub URL and stays on your domain
+        const newUrl = window.location.origin + window.location.pathname + '?p=' + event.data.page;
+        window.location.href = newUrl; 
+    }
+});
 
     window.onload = loadApp;
 </script>
