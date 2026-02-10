@@ -44,7 +44,15 @@
     <iframe id="appFrame" src="" allow="camera; microphone; clipboard-read; clipboard-write;"></iframe>
 
     <script>
-        const baseExecLink = "https://script.google.com/macros/s/AKfycbwYJ3hDyjrb6RbBmh2BuWisOXlaUFosYrM37zIF6HMEGsGH9bYreTicK-hn_UvTcS7c/exec";
+    // 1. Your Base Google Exec Link
+    const baseExecLink = "https://script.google.com/macros/s/AKfycbwYJ3hDyjrb6RbBmh2BuWisOXlaUFosYrM37zIF6HMEGsGH9bYreTicK-hn_UvTcS7c/exec";
+
+    function getTargetURL(p) {
+        let pageName = 'index'; // default
+        if (p === 'dashboard') pageName = 'Dashboard';
+        if (p === 'scanner') pageName = 'Scanner';
+        return baseExecLink + "?p=" + pageName;
+    }
 
     function loadApp() {
         const params = new URLSearchParams(window.location.search);
@@ -53,17 +61,24 @@
         const frame = document.getElementById('appFrame');
         const loader = document.getElementById('loading');
 
-        let pageName = 'index'; // default
-        if (p === 'dashboard') pageName = 'Dashboard';
-        if (p === 'scanner') pageName = 'Scanner';
-
-        frame.src = baseExecLink + "?p=" + pageName;
+        frame.src = getTargetURL(p);
         
         frame.onload = () => {
             loader.style.display = 'none';
             frame.style.display = 'block';
         };
     }
+
+    // 2. THE FIX: Listen for messages from the App Script
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'nav') {
+            // This updates the browser's URL to yourdomain.com/?p=dashboard
+            // which triggers the wrapper to reload the correct iframe page
+            const newUrl = window.location.origin + window.location.pathname + '?p=' + event.data.page;
+            window.location.href = newUrl; 
+        }
+    });
+
     window.onload = loadApp;
 </script>
 </body>
